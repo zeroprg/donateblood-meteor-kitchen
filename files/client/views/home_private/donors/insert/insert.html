@@ -1,0 +1,162 @@
+<template name="HomePrivateDonorsInsert">
+	<div class="page-container container" id="content">
+		<div class="row" id="title_row">
+			<div class="col-md-12">
+				<div id="page_menu" class="pull-right">
+				</div>
+			</div>
+		</div>
+		{{> HomePrivateDonorsInsertInsertForm}}
+	</div>
+</template>
+
+<template name="HomePrivateDonorsInsertInsertForm">
+	<div id="home-private-donors-insert-insert-form" class="">
+		<h2 id="component-title">
+			New donor
+		</h2>
+		<form role="form">
+			{{#if errorMessage}}
+			<div class="alert alert-warning">
+				{{errorMessage}}
+			</div>
+			{{/if}}
+
+			{{#if infoMessage}}
+			<div class="alert alert-success">
+				{{infoMessage}}
+			</div>
+			{{/if}}
+			<div class="form-group  field-first_name">
+				<label for="first_name">
+					First Name
+				</label>
+				<div class="input-div">
+					<input type="text" name="first_name" value="" class="form-control " autofocus="autofocus" required="required" data-type="string">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-last_name">
+				<label for="last_name">
+					Last Name
+				</label>
+				<div class="input-div">
+					<input type="text" name="last_name" value="" class="form-control " required="required" data-type="string">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-blood_group">
+				<label for="blood_group">
+					Blood group
+				</label>
+				<div class="input-div">
+					<select name="blood_group" value="{{donor.blood_group}}" class="form-control " required="required" data-type="string">
+						<option value="O+">O+</option>
+						<option value="O-">O-</option>	
+						<option value="A+">A+</option>
+						<option value="A-">A-</option>
+						<option value="B+">B+</option>
+						<option value="B-">B-</option>
+						<option value="AB+">AB+</option>
+						<option value="AB-">AB-</option>
+					</select>	
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-email">
+				<label for="email">
+					E-Mail
+				</label>
+				<div class="input-div">
+					<input type="text" name="email" value="" class="form-control " required="required" data-type="string">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-phone">
+				<label for="phone">
+					Phone
+				</label>
+				<div class="input-div">
+					<input type="text" name="phone" value="" class="form-control " data-type="string">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-note">
+				<label for="note">
+					Note
+				</label>
+				<div class="input-div">
+					<textarea class="form-control " name="note"></textarea>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-ip">
+				<label for="ip">
+					ip address
+				</label>
+				<div class="input-div">
+					<input type="text" name="ip" value="" class="form-control " data-type="string" data-min="15" data-max="15">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-lat">
+				<label for="lat">
+					Latitude
+				</label>
+				<div class="input-div">
+					<input type="text" name="lat" value="" class="form-control " data-type="float">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-lng">
+				<label for="lng">
+					Longitude
+				</label>
+				<div class="input-div">
+					<input type="text" name="lng" value="" class="form-control " data-type="float">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="submit-div">
+					<button id="form-submit-button" class="btn btn-success" type="submit">
+						<span class="fa fa-check">
+						</span>
+						Save
+					</button>
+					<a href="#" id="form-cancel-button" class="btn btn-default">
+						Cancel
+					</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</template>
+

@@ -1,0 +1,199 @@
+<template name="HomePrivateRecipientsInsert">
+	<div class="page-container container" id="content">
+		<div class="row" id="title_row">
+			<div class="col-md-12">
+				<h2 id="page_title" class="pull-left">
+					Insert new recipient
+				</h2>
+				<div id="page_menu" class="pull-right">
+				</div>
+			</div>
+		</div>
+		{{> HomePrivateRecipientsInsertInsertForm}}
+	</div>
+</template>
+
+<template name="HomePrivateRecipientsInsertInsertForm">
+	<div id="home-private-recipients-insert-insert-form" class="">
+		<h2 id="component-title">
+			New recipient
+		</h2>
+		<form role="form">
+			{{#if errorMessage}}
+			<div class="alert alert-warning">
+				{{errorMessage}}
+			</div>
+			{{/if}}
+
+			{{#if infoMessage}}
+			<div class="alert alert-success">
+				{{infoMessage}}
+			</div>
+			{{/if}}
+			<div class="form-group  field-name">
+				<label for="name">
+					Name
+				</label>
+				<div class="input-div">
+					<input type="text" name="name" value="" class="form-control " autofocus="autofocus" required="required" data-type="string">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-type">
+				<label for="type">
+					Type
+				</label>
+				<div class="input-div">
+					<select class="form-control " name="type" data-type="string" required="required">
+						<option value="Person">Person</option>
+						<option value="Goverment">Goverment</option>
+						<option value="Semi-goverment">Semi-goverment</option>
+						<option value="Private company">Private company</option>
+					</select>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-accept_good">
+				<label for="accept_good">
+					Accepting
+				</label>
+				<div class="input-div">
+					<select class="form-control " name="accept_good" data-type="string" required="required">
+						<option value="Blood">Blood</option>
+						<option value="Food">Food</option>
+						<option value="Cloth">Cloth</option>
+						<option value="Lodge">Lodge</option>
+					</select>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-blood_group">
+				<label for="blood_group">
+					Blood group
+				</label>
+				<div class="input-div">
+					<select type="text" name="blood_group" class="form-control " data-type="string">
+						<option value="O+">O+</option>
+						<option value="O-">O-</option>	
+						<option value="A+">A+</option>
+						<option value="A-">A-</option>
+						<option value="B+">B+</option>
+						<option value="B-">B-</option>
+						<option value="AB+">AB+</option>
+						<option value="AB-">AB-</option>
+					</select>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-notes">
+				<label for="notes">
+					Notes
+				</label>
+				<div class="input-div">
+					<textarea class="form-control " name="notes"></textarea>
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-phone">
+				<label for="phone">
+					Phone
+				</label>
+				<div class="input-div">
+					<input type="text" name="phone" value="" class="form-control " required="required" data-type="string">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-email">
+				<label for="email">
+					E-Mail
+				</label>
+				<div class="input-div">
+					<input type="text" name="email" value="" class="form-control " required="required" data-type="string">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-address">
+				<label for="address">
+					Adress
+				</label>
+				<div class="input-div">
+					<input type="text" name="address" value="" class="form-control " required="required" data-type="string">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-ip">
+				<label for="ip">
+					IP address
+				</label>
+				<div class="input-div">
+					<input type="text" name="ip" value="" class="form-control " required="required" data-type="string">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-lat">
+				<label for="lat">
+					Latitude
+				</label>
+				<div class="input-div">
+					<input type="text" name="lat" value="" class="form-control " data-type="float">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group  field-lng">
+				<label for="lng">
+					Longitude
+				</label>
+				<div class="input-div">
+					<input type="text" name="lng" value="" class="form-control " data-type="float">
+					<span id="help-text" class="help-block">
+					</span>
+					<span id="error-text" class="help-block">
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="submit-div">
+					<button id="form-submit-button" class="btn btn-success" type="submit">
+						<span class="fa fa-check">
+						</span>
+						Save
+					</button>
+					<a href="#" id="form-cancel-button" class="btn btn-default">
+						Cancel
+					</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</template>
+

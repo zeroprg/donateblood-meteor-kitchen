@@ -131,8 +131,12 @@ var initialize = function(element, centroid, zoom, features) {
     touchZoom: false
   }).setView(new L.LatLng(centroid[0], centroid[1]), zoom);
   
-
-  L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png').addTo(map);
+  // different layer
+  //L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png').addTo(map);
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+            {
+              attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
 
   map.attributionControl.setPrefix('');
   
@@ -187,8 +191,59 @@ var createIcon = function(donor) {
   });
 }
 
+
 var openCreateDialog = function (latlng) {
   Session.set("createCoords", latlng);
   Session.set("createError", null);
   Session.set("showCreateDialog", true);
 };
+
+
+var show_earthquakes_on_map = function(my_lat, my_lon) {
+   $.getJSON('//earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson',
+           function(data) {
+                    console.log("JSONP called");
+                    $.each(data.features, function( index, item ) {
+                       var magnitude = item.properties.mag;
+                
+                      var ErthquakeIcon = L.Icon.Default.extend({
+                        options: {
+                          iconUrl:   'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + magTocolor(magnitude) +  '&chf=a,s,ee00FFFF',
+                          iconSize:  [10*magnitude, 18*magnitude], // size of the icon
+                          shadowSize:[10*magnitude, 18*magnitude], // size of the shadow
+                        }
+                      });                   
+                      var erthquakeIcon = new ErthquakeIcon();
+                      var title = item.properties.title;    
+                      var lat = item.geometry.coordinates[1];
+                      var lon = item.geometry.coordinates[0];
+                 
+                      var marker = L.marker([lat, lon], {icon: erthquakeIcon}).addTo(map);
+                      var date = new Date(item.properties.time);
+                      var text =  '<b> Time: </b> :' + date.toLocaleString() + '</br> ' ; 
+                      text +=  '<b> depth: </b> :' + item.geometry.coordinates[2] + '</br> ' ;
+                      text +=  '<b> Magnitude: </b> :' + item.properties.mag + '</br> ' ;
+                      marker.bindPopup("<b>" + title + "</b><br>" + text).openPopup();
+
+                    /*
+                    if( $("#msgs b:contains(" + title + ")").length==0 ) { // populate if only it's new
+                        $("#msgs").html('<li class="self">'+ populateMsg ("", "<b>" + title + "</b><br>" + text) + $("#msgs").html());
+                    }
+                    */
+               });          
+   });
+}
+var  magTocolor = function(magnitude)
+ { 
+    var color;
+    if(magnitude < 1  )         color ='D7BDE2';
+    else if( magnitude < 2.5  ) color ='6C3483';
+    else if( magnitude < 3  )   color ='1F618D';
+    else if( magnitude < 4  )   color ='196F3D';
+    else if( magnitude < 5 )    color ='F4D03F';
+    else if( magnitude < 5.5 )  color ='DC7633';
+    else if( magnitude < 6 )    color ='FF5733';
+    else if( magnitude < 7 )    color ='FF5000';
+    else if( magnitude < 10 )   color ='FF0000';
+    return color;
+}

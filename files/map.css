@@ -35,6 +35,18 @@
     vertical-align:middle;
 }
 
+
+.leaflet-div-icon-earthquake {
+    border-radius: 50%;
+    border: none;
+    line-height: 30px;
+    font-family: verdana;
+    text-align: center;
+    color: black;
+    opacity: .8;
+    vertical-align:middle;
+}
+
 .leaflet-div-icon.public {
     background: #49AFCD;
 }

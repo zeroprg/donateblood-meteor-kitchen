@@ -1,3 +1,4 @@
+
 Template.map.rendered = function () { 
   // basic housekeeping
   $(window).resize(function () {
@@ -15,8 +16,8 @@ Template.map.rendered = function () {
     console.log(my_loc);
     //my_loc = Session.get("my_loc");
     initialize($("#map_canvas")[0], [my_loc.latitude, my_loc.longitude ], map_zoom);
-
-   
+    show_earthquakes_on_map();
+    setInterval(show_earthquakes_on_map,600000);
   
   
     var self = this;
@@ -166,6 +167,9 @@ var initialize = function(element, centroid, zoom, features) {
         .openOn(map);        
     });
 
+  map.on('focus', function() { map.scrollWheelZoom.enable(); });
+  map.on('blur', function() { map.scrollWheelZoom.disable(); });
+
 }
 
 
@@ -181,12 +185,23 @@ var removeMarker = function(_id) {
   if (map.hasLayer(marker)) map.removeLayer(marker);
 }
 
-var createIcon = function(donor) {
+
+var createIcon = function(player) {
   var className = 'leaflet-div-icon ';
-  className += donor.public ? 'public' : 'private';
+  // if player is recipient'
+  className += player.accept_good ? 'public' : 'private';
   return L.divIcon({
     iconSize: [30, 30],
-    html: '<b>' + donor.blood_group + '</b>',
+    html: '<b>' + (player.accept_good == undefined ?  player.blood_group  : player.accept_good)   + '</b>',
+    className: className  
+  });
+}
+
+var createErthquakeIcon = function(earthquake) {
+  var className = 'leaflet-div-icon-earthquake';
+  return L.divIcon({
+    iconSize: [30, 30],
+    html: '<b>' + earthquake.mag + '</b>',
     className: className  
   });
 }
@@ -199,13 +214,13 @@ var openCreateDialog = function (latlng) {
 };
 
 
-var show_earthquakes_on_map = function(my_lat, my_lon) {
+var show_earthquakes_on_map = function() {
    $.getJSON('//earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson',
            function(data) {
                     console.log("JSONP called");
                     $.each(data.features, function( index, item ) {
                        var magnitude = item.properties.mag;
-                
+                /*
                       var ErthquakeIcon = L.Icon.Default.extend({
                         options: {
                           iconUrl:   'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + magTocolor(magnitude) +  '&chf=a,s,ee00FFFF',
@@ -214,16 +229,26 @@ var show_earthquakes_on_map = function(my_lat, my_lon) {
                         }
                       });                   
                       var erthquakeIcon = new ErthquakeIcon();
+                */
                       var title = item.properties.title;    
                       var lat = item.geometry.coordinates[1];
                       var lon = item.geometry.coordinates[0];
                  
-                      var marker = L.marker([lat, lon], {icon: erthquakeIcon}).addTo(map);
+                      var marker = new L.Marker([lat, lon] , {
+                        _id: item.id,
+                        icon: createErthquakeIcon(item.properties)
+                      }).on('click', function(e) {
+                        //Session.set("selected",   e.target.options._id );
+                       // Router.go("home_private.donors.details",{donorId: e.target.options._id});
+                      }); 
+
+//                      var marker = L.marker([lat, lon], {icon: erthquakeIcon}).addTo(map);
                       var date = new Date(item.properties.time);
                       var text =  '<b> Time: </b> :' + date.toLocaleString() + '</br> ' ; 
                       text +=  '<b> depth: </b> :' + item.geometry.coordinates[2] + '</br> ' ;
                       text +=  '<b> Magnitude: </b> :' + item.properties.mag + '</br> ' ;
                       marker.bindPopup("<b>" + title + "</b><br>" + text).openPopup();
+                      addMarker(marker);
 
                     /*
                     if( $("#msgs b:contains(" + title + ")").length==0 ) { // populate if only it's new

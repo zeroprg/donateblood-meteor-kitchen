@@ -29,7 +29,7 @@ Facebook.prototype.getPhotos = function() {
 }
 
 
-/*Meteor.methods({
+Meteor.methods({
     getUserData: function() {
         var fb = new Facebook(Meteor.user().services.facebook.accessToken);
         var data = fb.getPhotos();
@@ -43,4 +43,4 @@ Meteor.methods({
     var photos = fb.getPhotos;
     return photos;
 }
-}); */
+}); 

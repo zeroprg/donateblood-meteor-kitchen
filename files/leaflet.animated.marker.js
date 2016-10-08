@@ -114,7 +114,150 @@ L.AnimatedMarker = L.Marker.extend({
   }
 
 });
-
 L.animatedMarker = function (latlngs, options) {
   return new L.AnimatedMarker(latlngs, options);
 };
+
+
+//Earthquake magnitude marker
+L.ErthquakeMarker = {};
+L.ErthquakeMarker.version = '1.0.1'
+L.ErthquakeMarker.Icon =  L.Icon.extend({
+  options: {   
+    iconUrl:   'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|D7BDE2&chf=a,s,ee00FFFF',
+    iconSize:  [10, 18], // size of the icon
+    shadowSize:[10, 18], // size of the shadow
+  },
+  initialize: function (options) {
+      options = L.Util.setOptions(this, options);
+  },
+
+
+});                   
+
+magTocolor = function(magnitude)
+ { 
+    var color;
+    if(magnitude < 1  )         color ='D7BDE2';
+    else if( magnitude < 2.5  ) color ='6C3483';
+    else if( magnitude < 3  )   color ='1F618D';
+    else if( magnitude < 4  )   color ='196F3D';
+    else if( magnitude < 5 )    color ='F4D03F';
+    else if( magnitude < 5.5 )  color ='DC7633';
+    else if( magnitude < 6 )    color ='FF5733';
+    else if( magnitude < 7 )    color ='FF5000';
+    else if( magnitude < 10 )   color ='FF0000';
+    return color;
+}
+
+
+L.ErthquakeMarker.icon = function (magnitude) {
+     return new L.ErthquakeMarker.Icon({iconSize: [10*magnitude, 18*magnitude] , shadowSize:[10*magnitude, 18*magnitude], iconUrl:'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + magTocolor(magnitude) +'&chf=a,s,ee00FFFF'});
+};
+
+
+// More complex marker
+L.AwesomeMarkers = {};
+
+  L.AwesomeMarkers.version = '2.0.1';
+
+  L.AwesomeMarkers.Icon = L.Icon.extend({
+      options: {
+          iconSize: [35, 45],
+          iconAnchor:   [17, 42],
+          popupAnchor: [1, -32],
+          shadowAnchor: [10, 12],
+          shadowSize: [36, 16],
+          className: 'awesome-marker',
+          prefix: 'glyphicon',
+          spinClass: 'fa-spin',
+          extraClasses: '',
+          icon: 'home',
+          markerColor: 'blue',
+          iconColor: 'white'
+      },
+
+      initialize: function (options) {
+          options = L.Util.setOptions(this, options);
+      },
+
+      createIcon: function () {
+          var div = document.createElement('div'),
+              options = this.options;
+
+          if (options.icon) {
+              div.innerHTML = this._createInner();
+          }
+
+          if (options.bgPos) {
+              div.style.backgroundPosition =
+                  (-options.bgPos.x) + 'px ' + (-options.bgPos.y) + 'px';
+          }
+
+          this._setIconStyles(div, 'icon-' + options.markerColor);
+          return div;
+      },
+
+      _createInner: function() {
+          var iconClass, iconSpinClass = "", iconColorClass = "", iconColorStyle = "", options = this.options;
+
+          if(options.icon.slice(0,options.prefix.length+1) === options.prefix + "-") {
+              iconClass = options.icon;
+          } else {
+              iconClass = options.prefix + "-" + options.icon;
+          }
+
+          if(options.spin && typeof options.spinClass === "string") {
+              iconSpinClass = options.spinClass;
+          }
+
+          if(options.iconColor) {
+              if(options.iconColor === 'white' || options.iconColor === 'black') {
+                  iconColorClass = "icon-" + options.iconColor;
+              } else {
+                  iconColorStyle = "style='color: " + options.iconColor + "' ";
+              }
+          }
+
+          return "<i " + iconColorStyle + "class='" + options.extraClasses + " " + options.prefix + " " + iconClass + " " + iconSpinClass + " " + iconColorClass + "'></i>";
+      },
+
+      _setIconStyles: function (img, name) {
+          var options = this.options,
+              size = L.point(options[name === 'shadow' ? 'shadowSize' : 'iconSize']),
+              anchor;
+
+          if (name === 'shadow') {
+              anchor = L.point(options.shadowAnchor || options.iconAnchor);
+          } else {
+              anchor = L.point(options.iconAnchor);
+          }
+
+          if (!anchor && size) {
+              anchor = size.divideBy(2, true);
+          }
+
+          img.className = 'awesome-marker-' + name + ' ' + options.className;
+
+          if (anchor) {
+              img.style.marginLeft = (-anchor.x) + 'px';
+              img.style.marginTop  = (-anchor.y) + 'px';
+          }
+
+          if (size) {
+              img.style.width  = size.x + 'px';
+              img.style.height = size.y + 'px';
+          }
+      },
+
+      createShadow: function () {
+          var div = document.createElement('div');
+
+          this._setIconStyles(div, 'shadow');
+          return div;
+    }
+  });
+      
+  L.AwesomeMarkers.icon = function (options) {
+      return new L.AwesomeMarkers.Icon(options);
+  };

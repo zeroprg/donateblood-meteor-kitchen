@@ -1,10 +1,12 @@
 copy .\files\*.*  %AppData%\..\Local\Temp\files
 
-del .\donors\.meteor-kitchen.json
-meteor-kitchen http://www.meteorkitchen.com/api/getapp/json/BwJwr56a3bF8Wj7ZT donors
+del ..\donateblood\.meteor-kitchen.json
 
+cd ..
 
-cd .\donors
+meteor-kitchen http://www.meteorkitchen.com/api/getapp/json/BwJwr56a3bF8Wj7ZT donateblood
+
+cd donateblood
 meteor
 
 

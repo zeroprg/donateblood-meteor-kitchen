@@ -1,4 +1,3 @@
-
 Template.map.rendered = function () { 
   // basic housekeeping
   $(window).resize(function () {
@@ -236,7 +235,7 @@ var show_earthquakes_on_map = function() {
                  
                       var marker = new L.Marker([lat, lon] , {
                         _id: item.id,
-                        icon: createErthquakeIcon(item.properties)
+                        icon: L.ErthquakeMarker.icon(magnitude)
                       }).on('click', function(e) {
                         //Session.set("selected",   e.target.options._id );
                        // Router.go("home_private.donors.details",{donorId: e.target.options._id});
@@ -257,18 +256,4 @@ var show_earthquakes_on_map = function() {
                     */
                });          
    });
-}
-var  magTocolor = function(magnitude)
- { 
-    var color;
-    if(magnitude < 1  )         color ='D7BDE2';
-    else if( magnitude < 2.5  ) color ='6C3483';
-    else if( magnitude < 3  )   color ='1F618D';
-    else if( magnitude < 4  )   color ='196F3D';
-    else if( magnitude < 5 )    color ='F4D03F';
-    else if( magnitude < 5.5 )  color ='DC7633';
-    else if( magnitude < 6 )    color ='FF5733';
-    else if( magnitude < 7 )    color ='FF5000';
-    else if( magnitude < 10 )   color ='FF0000';
-    return color;
 }
